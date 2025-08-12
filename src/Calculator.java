@@ -7,8 +7,8 @@ public class Calculator implements ActionListener{
     JFrame frame;
     JTextField textField;
     JButton[] numberKeypad = new JButton[10];
-    JButton[] logicKeypad = new JButton[8];
-    JButton addB, subB, mulB, divB, decB, eqlB, delB, clrB;
+    JButton[] logicKeypad = new JButton[9];
+    JButton addB, subB, mulB, divB, decB, eqlB, delB, clrB, negB;
     JPanel panel;
 
     Font currentFont = new Font("Monospaced", Font.PLAIN, 50);
@@ -35,6 +35,7 @@ public class Calculator implements ActionListener{
         eqlB = new JButton("=");
         delB = new JButton("del");
         clrB = new JButton("clr");
+        negB = new JButton("(-)");
         logicKeypad[0] = addB;
         logicKeypad[1] = subB;
         logicKeypad[2] = mulB;
@@ -43,8 +44,9 @@ public class Calculator implements ActionListener{
         logicKeypad[5] = eqlB;
         logicKeypad[6] = delB;
         logicKeypad[7] = clrB;
+        logicKeypad[8] = negB;
 
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 9; i++) {
             logicKeypad[i].addActionListener(this);
             logicKeypad[i].setFont(currentFont);
             logicKeypad[i].setFocusable(false);
@@ -57,8 +59,9 @@ public class Calculator implements ActionListener{
             numberKeypad[i].setFocusable(false);            
         }
 
-        delB.setBounds(50,480,140,50);
-        clrB.setBounds(250,480,140,50);
+        negB.setBounds(10,480,135,50);
+        delB.setBounds(150,480,135,50);
+        clrB.setBounds(290,480,135,50);
 
         panel = new JPanel();
         panel.setBounds(50, 150, 340, 300);
@@ -86,6 +89,7 @@ public class Calculator implements ActionListener{
         frame.add(panel);
         frame.add(delB);
         frame.add(clrB);
+        frame.add(negB);
         frame.add(textField);
         frame.setVisible(true);
     }
@@ -150,6 +154,11 @@ public class Calculator implements ActionListener{
             for (int i = 0; i < delete.length() - 1; i++) {
                 textField.setText(textField.getText()+delete.charAt(i));
             }
-        }           
+        }
+        if (e.getSource() == negB) {
+            double negative = Double.parseDouble(textField.getText());
+            negative *= -1;
+            textField.setText(String.valueOf(negative));
+        }            
     }
 }
