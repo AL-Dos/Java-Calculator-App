@@ -3,6 +3,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class Calculator implements ActionListener{
+    // variables
     JFrame frame;
     JTextField textField;
     JButton[] numberKeypad = new JButton[10];
@@ -10,10 +11,11 @@ public class Calculator implements ActionListener{
     JButton addB, subB, mulB, divB, decB, eqlB, delB, clrB;
     JPanel panel;
 
-    Font currentFont = new Font("Monospaced", Font.BOLD, 50);
+    Font currentFont = new Font("Monospaced", Font.PLAIN, 50);
     double n1 = 0, n2 = 0, result = 0;
     char operator;
 
+    // setting up the calculator
     Calculator() {
         frame = new JFrame("Calculator");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -21,7 +23,7 @@ public class Calculator implements ActionListener{
         frame.setLayout(null);
 
         textField = new JTextField();
-        textField.setBounds(43,50,350,70);
+        textField.setBounds(33,50,370,60);
         textField.setFont(currentFont);
         textField.setEditable(false);
 
@@ -55,9 +57,33 @@ public class Calculator implements ActionListener{
             numberKeypad[i].setFocusable(false);            
         }
 
-        delB.setBounds(50,430,145,50);
-        clrB.setBounds(250,430,145,50);
+        delB.setBounds(50,480,140,50);
+        clrB.setBounds(250,480,140,50);
 
+        panel = new JPanel();
+        panel.setBounds(50, 150, 340, 300);
+        panel.setLayout(new GridLayout(4, 4, 10, 10));
+        panel.setBackground(Color.GRAY);
+        panel.setForeground(Color.BLACK);
+
+        panel.add(numberKeypad[1]);
+        panel.add(numberKeypad[2]);
+        panel.add(numberKeypad[3]);
+        panel.add(addB);
+        panel.add(numberKeypad[4]);
+        panel.add(numberKeypad[5]);
+        panel.add(numberKeypad[6]);
+        panel.add(subB);
+        panel.add(numberKeypad[7]);
+        panel.add(numberKeypad[8]);
+        panel.add(numberKeypad[9]);
+        panel.add(mulB);
+        panel.add(decB);
+        panel.add(numberKeypad[0]);
+        panel.add(eqlB);
+        panel.add(divB);
+
+        frame.add(panel);
         frame.add(delB);
         frame.add(clrB);
         frame.add(textField);
@@ -67,8 +93,63 @@ public class Calculator implements ActionListener{
         Calculator cal = new Calculator();
     }
 
+    // function on how the calculator works
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        for (int i = 0; i < 10; i++) {
+            if (e.getSource() == numberKeypad[i]) {
+                textField.setText(textField.getText().concat(String.valueOf(i)));
+            }
+        }
+        if (e.getSource() == decB) {
+            textField.setText(textField.getText().concat("."));
+        }
+        if (e.getSource() == addB) {
+            n1 = Double.parseDouble(textField.getText());
+            operator = '+';
+            textField.setText("");
+        }
+        if (e.getSource() == subB) {
+            n1 = Double.parseDouble(textField.getText());
+            operator = '-';
+            textField.setText("");
+        }
+        if (e.getSource() == mulB) {
+            n1 = Double.parseDouble(textField.getText());
+            operator = '*';
+            textField.setText("");
+        }
+        if (e.getSource() == divB) {
+            n1 = Double.parseDouble(textField.getText());
+            operator = '/';
+            textField.setText("");
+        }
+        if (e.getSource() == eqlB) {
+            n2 = Double.parseDouble(textField.getText());
+            switch (operator) {
+                case '+':
+                    result = n1 + n2;
+                    break;
+                case '-':
+                    result = n1 - n2;
+                    break;
+                case '*':
+                    result = n1 * n2;
+                case '/':
+                    result = n1 / n2;
+            }
+            textField.setText(String.valueOf(result));
+            n1 = result;
+        }   
+        if (e.getSource() == clrB) {
+            textField.setText("");
+        }    
+        if (e.getSource() == delB) {
+            String delete = textField.getText();
+            textField.setText("");
+            for (int i = 0; i < delete.length() - 1; i++) {
+                textField.setText(textField.getText()+delete.charAt(i));
+            }
+        }           
     }
 }
