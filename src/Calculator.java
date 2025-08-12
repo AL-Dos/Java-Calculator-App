@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.text.DecimalFormat;
 
 public class Calculator implements ActionListener{
     // variables
@@ -14,6 +15,7 @@ public class Calculator implements ActionListener{
     Font currentFont = new Font("Monospaced", Font.PLAIN, 50);
     double n1 = 0, n2 = 0, result = 0;
     char operator;
+    DecimalFormat df = new DecimalFormat("#.########");
 
     // setting up the calculator
     Calculator() {
@@ -144,7 +146,7 @@ public class Calculator implements ActionListener{
                 case '*' -> result = n1 * n2;
                 case '/' -> result = n1 / n2;
             }
-            textField.setText(String.valueOf(result));
+            textField.setText(df.format(result));
             n1 = result;
         }   
         if (e.getSource() == clrB) {
